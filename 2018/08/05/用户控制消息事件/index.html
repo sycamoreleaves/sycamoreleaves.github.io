@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Handle_Control 本文记录 RTMP 中的用户控制消息事件， 客户端和服务器发送这一消息来通知对端用户控制事件  支持一下用户控制事件类型：  Stream Begin(=0) ： 服务器发送这个事件来通知客户端一个流已经就绪并可以用来通信。默认情况下，这一事件在成功接收到客户端的应用连接命令之后以ID0发送，这一事件数据为4字节，代表了已就绪的流ID. Stream EOF(=1)：">
+<meta name="description" content="Handle_Control 本文记录 RTMP 中的用户控制消息事件， 客户端和服务器发送这一消息来通知对端用户控制事件">
 <meta name="keywords" content="RTMP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用户控制消息事件">
 <meta property="og:url" content="http://yoursite.com/2018/08/05/用户控制消息事件/index.html">
 <meta property="og:site_name" content="sycamoreleaves.github.io">
-<meta property="og:description" content="Handle_Control 本文记录 RTMP 中的用户控制消息事件， 客户端和服务器发送这一消息来通知对端用户控制事件  支持一下用户控制事件类型：  Stream Begin(=0) ： 服务器发送这个事件来通知客户端一个流已经就绪并可以用来通信。默认情况下，这一事件在成功接收到客户端的应用连接命令之后以ID0发送，这一事件数据为4字节，代表了已就绪的流ID. Stream EOF(=1)：">
+<meta property="og:description" content="Handle_Control 本文记录 RTMP 中的用户控制消息事件， 客户端和服务器发送这一消息来通知对端用户控制事件">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-05T11:58:12.098Z">
+<meta property="og:updated_time" content="2018-08-05T15:34:45.726Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用户控制消息事件">
-<meta name="twitter:description" content="Handle_Control 本文记录 RTMP 中的用户控制消息事件， 客户端和服务器发送这一消息来通知对端用户控制事件  支持一下用户控制事件类型：  Stream Begin(=0) ： 服务器发送这个事件来通知客户端一个流已经就绪并可以用来通信。默认情况下，这一事件在成功接收到客户端的应用连接命令之后以ID0发送，这一事件数据为4字节，代表了已就绪的流ID. Stream EOF(=1)：">
+<meta name="twitter:description" content="Handle_Control 本文记录 RTMP 中的用户控制消息事件， 客户端和服务器发送这一消息来通知对端用户控制事件">
 
 
 
@@ -355,7 +355,8 @@
         <h1 id="Handle-Control"><a href="#Handle-Control" class="headerlink" title="Handle_Control"></a>Handle_Control</h1><blockquote>
 <p>本文记录 RTMP 中的用户控制消息事件， 客户端和服务器发送这一消息来通知对端用户控制事件</p>
 </blockquote>
-<p>支持一下用户控制事件类型：</p>
+<a id="more"></a>
+<p>支持以下用户控制事件类型：</p>
 <ul>
 <li><code>Stream Begin(=0)</code> ： 服务器发送这个事件来通知客户端一个流已经就绪并可以用来通信。默认情况下，这一事件在成功接收到客户端的应用连接命令之后以<code>ID0</code>发送，这一事件数据为<code>4</code>字节，代表了已就绪的流<code>ID</code>.</li>
 <li><code>Stream EOF(=1)</code>：服务器发送这一事件来通知客户端请求的流的回放数据已经结束。在发送额外的命令之前不再发送任何数据。客户端将丢弃接收到这个流的消息。 这一事件数据为<code>4</code>字节，代表了回放已结束的流的流<code>ID</code>.</li>
