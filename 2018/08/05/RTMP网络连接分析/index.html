@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="RTMP," />
 
 
 
@@ -79,13 +79,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="sycamoreleaves.github.io">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="RTMP_Connect librtmp用RTMP_Connect这个方法建立网络连接，网络连接代表了服务端应用程序和客户端之间基本的连通关系。 在RTMP_ParseURL方法中， 可以通过传入的url解出来host、port、application用解出来的host和port建立socket，然后做一些rtmp握手之类的工作。  12345678910111213141516171819202">
+<meta name="keywords" content="RTMP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RTMP网络连接分析">
+<meta property="og:url" content="http://yoursite.com/2018/08/05/RTMP网络连接分析/index.html">
 <meta property="og:site_name" content="sycamoreleaves.github.io">
+<meta property="og:description" content="RTMP_Connect librtmp用RTMP_Connect这个方法建立网络连接，网络连接代表了服务端应用程序和客户端之间基本的连通关系。 在RTMP_ParseURL方法中， 可以通过传入的url解出来host、port、application用解出来的host和port建立socket，然后做一些rtmp握手之类的工作。  12345678910111213141516171819202">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-05T14:45:51.688Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="sycamoreleaves.github.io">
+<meta name="twitter:title" content="RTMP网络连接分析">
+<meta name="twitter:description" content="RTMP_Connect librtmp用RTMP_Connect这个方法建立网络连接，网络连接代表了服务端应用程序和客户端之间基本的连通关系。 在RTMP_ParseURL方法中， 可以通过传入的url解出来host、port、application用解出来的host和port建立socket，然后做一些rtmp握手之类的工作。  12345678910111213141516171819202">
 
 
 
@@ -115,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/05/RTMP网络连接分析/"/>
 
 
 
 
 
-  <title>sycamoreleaves.github.io</title>
+  <title>RTMP网络连接分析 | sycamoreleaves.github.io</title>
   
 
 
@@ -140,8 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -244,9 +248,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -276,9 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/05/RTMP网络连接分析/" itemprop="url">RTMP网络连接分析</a></h1>
+          <h1 class="post-title" itemprop="name headline">RTMP网络连接分析</h1>
         
 
         <div class="post-meta">
@@ -350,9 +352,7 @@
       
 
       
-        
-          
-            <h1 id="RTMP-Connect"><a href="#RTMP-Connect" class="headerlink" title="RTMP_Connect"></a>RTMP_Connect</h1><blockquote>
+        <h1 id="RTMP-Connect"><a href="#RTMP-Connect" class="headerlink" title="RTMP_Connect"></a>RTMP_Connect</h1><blockquote>
 <p>librtmp用RTMP_Connect这个方法建立网络连接，网络连接代表了服务端应用程序和客户端之间基本的连通关系。 在<code>RTMP_ParseURL</code>方法中， 可以通过传入的url解出来<code>host</code>、<code>port</code>、<code>application</code><br>用解出来的host和port建立socket，然后做一些rtmp握手之类的工作。</p>
 </blockquote>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span><br><span class="line">RTMP_Connect(RTMP *r, RTMPPacket *cp)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">service</span>;</span></span><br><span class="line">    <span class="keyword">if</span> (!r-&gt;Link.hostname.av_len)</span><br><span class="line">        <span class="keyword">return</span> FALSE;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">memset</span>(&amp;service, <span class="number">0</span>, <span class="keyword">sizeof</span>(struct sockaddr_in));</span><br><span class="line">    service.sin_family = AF_INET;</span><br><span class="line">    RTMP_Log(RTMP_LOGDEBUG, <span class="string">"Link.sockport = %d"</span>, r-&gt;Link.sockshost);</span><br><span class="line">    <span class="keyword">if</span> (r-&gt;Link.socksport) &#123;</span><br><span class="line">        <span class="comment">/* Connect via SOCKS */</span></span><br><span class="line">        <span class="keyword">if</span> (!add_addr_info(&amp;service, &amp;r-&gt;Link.sockshost, r-&gt;Link.socksport))</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        RTMP_Log(RTMP_LOGDEBUG, <span class="string">"hostname: %s, port = %d\n"</span>, r-&gt;Link.hostname.av_val, r-&gt;Link.port);</span><br><span class="line">        <span class="comment">/* Connect directly */</span></span><br><span class="line">        <span class="keyword">if</span> (!add_addr_info(&amp;service, &amp;r-&gt;Link.hostname, r-&gt;Link.port))</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建socket， 设置一些参数， 接收数据超时时间，禁用Nagle算法 </span></span><br><span class="line">    <span class="keyword">if</span> (!RTMP_Connect0(r, (struct sockaddr *)&amp;service))</span><br><span class="line">        <span class="keyword">return</span> FALSE;</span><br><span class="line"></span><br><span class="line">    r-&gt;m_bSendCounter = TRUE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> RTMP_Connect1(r, cp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -402,8 +402,6 @@
 <p>任意可选对象里面是相当与是一些用户参数， <code>app</code>、 <code>flashver</code>、<code>swfUrl</code>等</p>
 <p>下面是librtmp中的连接代码<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span></span><br><span class="line">SendConnectPacket(RTMP *r, RTMPPacket *cp)</span><br><span class="line">&#123;</span><br><span class="line">    RTMPPacket packet;</span><br><span class="line">    <span class="keyword">char</span> pbuf[<span class="number">4096</span>], *pend = pbuf + <span class="keyword">sizeof</span>(pbuf);</span><br><span class="line">    <span class="keyword">char</span> *enc;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (cp)</span><br><span class="line">        <span class="keyword">return</span> RTMP_SendPacket(r, cp, TRUE);</span><br><span class="line"></span><br><span class="line">    packet.m_nChannel = <span class="number">0x03</span>;	<span class="comment">/* control channel (invoke) */</span></span><br><span class="line">    packet.m_headerType = RTMP_PACKET_SIZE_LARGE;</span><br><span class="line">    packet.m_packetType = RTMP_PACKET_TYPE_INVOKE;</span><br><span class="line">    packet.m_nTimeStamp = <span class="number">0</span>;</span><br><span class="line">    packet.m_nInfoField2 = <span class="number">0</span>;</span><br><span class="line">    packet.m_hasAbsTimestamp = <span class="number">0</span>;</span><br><span class="line">    packet.m_body = pbuf + RTMP_MAX_HEADER_SIZE;</span><br><span class="line"></span><br><span class="line">    enc = packet.m_body;</span><br><span class="line">    enc = AMF_EncodeString(enc, pend, &amp;av_connect);</span><br><span class="line">    enc = AMF_EncodeNumber(enc, pend, ++r-&gt;m_numInvokes);</span><br><span class="line">    *enc++ = AMF_OBJECT;</span><br><span class="line"></span><br><span class="line">    enc = AMF_EncodeNamedString(enc, pend, &amp;av_app, &amp;r-&gt;Link.app);</span><br><span class="line">    <span class="keyword">if</span> (!enc)</span><br><span class="line">        <span class="keyword">return</span> FALSE;</span><br><span class="line">    <span class="keyword">if</span> (r-&gt;Link.protocol &amp; RTMP_FEATURE_WRITE) &#123;</span><br><span class="line">        enc = AMF_EncodeNamedString(enc, pend, &amp;av_type, &amp;av_nonprivate);</span><br><span class="line">        <span class="keyword">if</span> (!enc)</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (r-&gt;Link.flashVer.av_len) &#123;</span><br><span class="line">        enc = AMF_EncodeNamedString(enc, pend, &amp;av_flashVer, &amp;r-&gt;Link.flashVer);</span><br><span class="line">        <span class="keyword">if</span> (!enc)</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (r-&gt;Link.swfUrl.av_len) &#123;</span><br><span class="line">        enc = AMF_EncodeNamedString(enc, pend, &amp;av_swfUrl, &amp;r-&gt;Link.swfUrl);</span><br><span class="line">        <span class="keyword">if</span> (!enc)</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (r-&gt;Link.tcUrl.av_len) &#123;</span><br><span class="line">        enc = AMF_EncodeNamedString(enc, pend, &amp;av_tcUrl, &amp;r-&gt;Link.tcUrl);</span><br><span class="line">        <span class="keyword">if</span> (!enc)</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!(r-&gt;Link.protocol &amp; RTMP_FEATURE_WRITE)) &#123;</span><br><span class="line">        enc = AMF_EncodeNamedBoolean(enc, pend, &amp;av_fpad, FALSE);</span><br><span class="line">        <span class="keyword">if</span> (!enc)</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">        enc = AMF_EncodeNamedNumber(enc, pend, &amp;av_capabilities, <span class="number">15.0</span>);</span><br><span class="line">        <span class="keyword">if</span> (!enc)</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">        enc = AMF_EncodeNamedNumber(enc, pend, &amp;av_audioCodecs, r-&gt;m_fAudioCodecs);</span><br><span class="line">        <span class="keyword">if</span> (!enc)</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">        enc = AMF_EncodeNamedNumber(enc, pend, &amp;av_videoCodecs, r-&gt;m_fVideoCodecs);</span><br><span class="line">        <span class="keyword">if</span> (!enc)</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">        enc = AMF_EncodeNamedNumber(enc, pend, &amp;av_videoFunction, <span class="number">1.0</span>);</span><br><span class="line">        <span class="keyword">if</span> (!enc)</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">        <span class="keyword">if</span> (r-&gt;Link.pageUrl.av_len) &#123;</span><br><span class="line">            enc = AMF_EncodeNamedString(enc, pend, &amp;av_pageUrl, &amp;r-&gt;Link.pageUrl);</span><br><span class="line">            <span class="keyword">if</span> (!enc)</span><br><span class="line">                <span class="keyword">return</span> FALSE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (r-&gt;m_fEncoding != <span class="number">0.0</span> || r-&gt;m_bSendEncoding) &#123;</span><br><span class="line">        <span class="comment">/* AMF0, AMF3 not fully supported yet */</span></span><br><span class="line">        enc = AMF_EncodeNamedNumber(enc, pend, &amp;av_objectEncoding, r-&gt;m_fEncoding);</span><br><span class="line">        <span class="keyword">if</span> (!enc)</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (enc + <span class="number">3</span> &gt;= pend)</span><br><span class="line">        <span class="keyword">return</span> FALSE;</span><br><span class="line">    *enc++ = <span class="number">0</span>;</span><br><span class="line">    *enc++ = <span class="number">0</span>;			<span class="comment">/* end of object - 0x00 0x00 0x09 */</span></span><br><span class="line">    *enc++ = AMF_OBJECT_END;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* add auth string */</span></span><br><span class="line">    <span class="keyword">if</span> (r-&gt;Link.auth.av_len) &#123;</span><br><span class="line">        enc = AMF_EncodeBoolean(enc, pend, r-&gt;Link.lFlags &amp; RTMP_LF_AUTH);</span><br><span class="line">        <span class="keyword">if</span> (!enc)</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">        enc = AMF_EncodeString(enc, pend, &amp;r-&gt;Link.auth);</span><br><span class="line">        <span class="keyword">if</span> (!enc)</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (r-&gt;Link.extras.o_num) &#123;</span><br><span class="line">        <span class="keyword">int</span> i;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; r-&gt;Link.extras.o_num; i++) &#123;</span><br><span class="line">            enc = AMFProp_Encode(&amp;r-&gt;Link.extras.o_props[i], enc, pend);</span><br><span class="line">            <span class="keyword">if</span> (!enc)</span><br><span class="line">                <span class="keyword">return</span> FALSE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    packet.m_nBodySize = enc - packet.m_body;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> RTMP_SendPacket(r, &amp;packet, TRUE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
-          
-        
       
     </div>
     
@@ -418,168 +416,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/05/用户控制消息事件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="le.zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sycamoreleaves.github.io">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/05/用户控制消息事件/" itemprop="url">用户控制消息事件</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-05T18:45:40+08:00">
-                2018-08-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/RTMP/" itemprop="url" rel="index">
-                    <span itemprop="name">RTMP</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/RTMP/" rel="tag"># RTMP</a>
           
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Handle-Control"><a href="#Handle-Control" class="headerlink" title="Handle_Control"></a>Handle_Control</h1><blockquote>
-<p>本文记录 RTMP 中的用户控制消息事件， 客户端和服务器发送这一消息来通知对端用户控制事件</p>
-</blockquote>
-<p>支持一下用户控制事件类型：</p>
-<ul>
-<li><code>Stream Begin(=0)</code> ： 服务器发送这个事件来通知客户端一个流已经就绪并可以用来通信。默认情况下，这一事件在成功接收到客户端的应用连接命令之后以<code>ID0</code>发送，这一事件数据为<code>4</code>字节，代表了已就绪的流<code>ID</code>.</li>
-<li><code>Stream EOF(=1)</code>：服务器发送这一事件来通知客户端请求的流的回放数据已经结束。在发送额外的命令之前不再发送任何数据。客户端将丢弃接收到这个流的消息。 这一事件数据为<code>4</code>字节，代表了回放已结束的流的流<code>ID</code>.</li>
-<li><code>Stream Dry(=2)</code>：服务器端发送这一事件来通知客户端当前流中以没有数据。当服务器端在一段时间内没有检测到任何消息。它可以通知相关客户端当前流已经没有数据了。这一事件数据为<code>4</code>字节，代表了已没有的流的流<code>ID</code>.</li>
-<li><code>SetBuffer Length(=3)</code>：客户端发送这一事件来通知服务器端用于缓冲流中任何数据的缓存大小(以毫秒为单位)。这一事件在服务端开始处理流之前就发送。这一事件数据的前<code>4</code>个字节代表了流<code>ID</code>后<code>4</code>个字节代表了以毫秒为单位的缓存的长度.</li>
-<li><code>StreamIs Recorded(=4)</code>：服务端发送这一事件来通知客户端当前流是一个录制流。这一事件数据为<code>4</code>字节，代表了录制流的流<code>ID</code></li>
-<li><code>PingRequest(=6)</code>：服务端发送这一事件用来测试是否能够送达客户端。事件数据为一个<code>4</code>字节的<code>TimeStamp</code>，代表了服务端发送这一命令时的服务器本地时间。客户端在接收到这一消息后会立即发送<code>PingResponse</code>回复.</li>
-</ul>
-<p>下面的代码时librtmp关于用户控制消息的处理<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">void</span></span><br><span class="line">HandleCtrl(RTMP *r, <span class="keyword">const</span> RTMPPacket *packet)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">short</span> nType = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> tmp;</span><br><span class="line">    <span class="keyword">if</span> (packet-&gt;m_body &amp;&amp; packet-&gt;m_nBodySize &gt;= <span class="number">2</span>)</span><br><span class="line">        nType = AMF_DecodeInt16(packet-&gt;m_body);</span><br><span class="line">    RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, received ctrl. type: %d, len: %d"</span>, __FUNCTION__, nType,</span><br><span class="line">             packet-&gt;m_nBodySize);</span><br><span class="line">    <span class="comment">/*RTMP_LogHex(packet.m_body, packet.m_nBodySize); */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (packet-&gt;m_nBodySize &gt;= <span class="number">6</span>) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (nType) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream Begin %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream EOF %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">if</span> (r-&gt;m_pausing == <span class="number">1</span>)</span><br><span class="line">                r-&gt;m_pausing = <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream Dry %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream IsRecorded %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">6</span>:		<span class="comment">/* server ping. reply with pong. */</span></span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Ping %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            RTMP_SendCtrl(r, <span class="number">0x07</span>, tmp, <span class="number">0</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">/* FMS 3.5 servers send the following two controls to let the client</span></span><br><span class="line"><span class="comment">             * know when the server has sent a complete buffer. I.e., when the</span></span><br><span class="line"><span class="comment">             * server has sent an amount of data equal to m_nBufferMS in duration.</span></span><br><span class="line"><span class="comment">             * The server meters its output so that data arrives at the client</span></span><br><span class="line"><span class="comment">             * in realtime and no faster.</span></span><br><span class="line"><span class="comment">             *</span></span><br><span class="line"><span class="comment">             * The rtmpdump program tries to set m_nBufferMS as large as</span></span><br><span class="line"><span class="comment">             * possible, to force the server to send data as fast as possible.</span></span><br><span class="line"><span class="comment">             * In practice, the server appears to cap this at about 1 hour's</span></span><br><span class="line"><span class="comment">             * worth of data. After the server has sent a complete buffer, and</span></span><br><span class="line"><span class="comment">             * sends this BufferEmpty message, it will wait until the play</span></span><br><span class="line"><span class="comment">             * duration of that buffer has passed before sending a new buffer.</span></span><br><span class="line"><span class="comment">             * The BufferReady message will be sent when the new buffer starts.</span></span><br><span class="line"><span class="comment">             * (There is no BufferReady message for the very first buffer;</span></span><br><span class="line"><span class="comment">             * presumably the Stream Begin message is sufficient for that</span></span><br><span class="line"><span class="comment">             * purpose.)</span></span><br><span class="line"><span class="comment">             *</span></span><br><span class="line"><span class="comment">             * If the network speed is much faster than the data bitrate, then</span></span><br><span class="line"><span class="comment">             * there may be long delays between the end of one buffer and the</span></span><br><span class="line"><span class="comment">             * start of the next.</span></span><br><span class="line"><span class="comment">             *</span></span><br><span class="line"><span class="comment">             * Since usually the network allows data to be sent at</span></span><br><span class="line"><span class="comment">             * faster than realtime, and rtmpdump wants to download the data</span></span><br><span class="line"><span class="comment">             * as fast as possible, we use this RTMP_LF_BUFX hack: when we</span></span><br><span class="line"><span class="comment">             * get the BufferEmpty message, we send a Pause followed by an</span></span><br><span class="line"><span class="comment">             * Unpause. This causes the server to send the next buffer immediately</span></span><br><span class="line"><span class="comment">             * instead of waiting for the full duration to elapse. (That's</span></span><br><span class="line"><span class="comment">             * also the purpose of the ToggleStream function, which rtmpdump</span></span><br><span class="line"><span class="comment">             * calls if we get a read timeout.)</span></span><br><span class="line"><span class="comment">             *</span></span><br><span class="line"><span class="comment">             * Media player apps don't need this hack since they are just</span></span><br><span class="line"><span class="comment">             * going to play the data in realtime anyway. It also doesn't work</span></span><br><span class="line"><span class="comment">             * for live streams since they obviously can only be sent in</span></span><br><span class="line"><span class="comment">             * realtime. And it's all moot if the network speed is actually</span></span><br><span class="line"><span class="comment">             * slower than the media bitrate.</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">        <span class="keyword">case</span> <span class="number">31</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream BufferEmpty %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">if</span> (!(r-&gt;Link.lFlags &amp; RTMP_LF_BUFX))</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">if</span> (!r-&gt;m_pausing) &#123;</span><br><span class="line">                r-&gt;m_pauseStamp = r-&gt;m_mediaChannel &lt; r-&gt;m_channelsAllocatedIn ?</span><br><span class="line">                                  r-&gt;m_channelTimestamp[r-&gt;m_mediaChannel] : <span class="number">0</span>;</span><br><span class="line">                RTMP_SendPause(r, TRUE, r-&gt;m_pauseStamp);</span><br><span class="line">                r-&gt;m_pausing = <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (r-&gt;m_pausing == <span class="number">2</span>) &#123;</span><br><span class="line">                RTMP_SendPause(r, FALSE, r-&gt;m_pauseStamp);</span><br><span class="line">                r-&gt;m_pausing = <span class="number">3</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">32</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream BufferReady %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream xx %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (nType == <span class="number">0x1A</span>) &#123;</span><br><span class="line">        RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, SWFVerification ping received: "</span>, __FUNCTION__);</span><br><span class="line">        <span class="keyword">if</span> (packet-&gt;m_nBodySize &gt; <span class="number">2</span> &amp;&amp; packet-&gt;m_body[<span class="number">2</span>] &gt; <span class="number">0x01</span>) &#123;</span><br><span class="line">            RTMP_Log(RTMP_LOGERROR,</span><br><span class="line">                     <span class="string">"%s: SWFVerification Type %d request not supported! Patches welcome..."</span>,</span><br><span class="line">                     __FUNCTION__, packet-&gt;m_body[<span class="number">2</span>]);</span><br><span class="line">        &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> CRYPTO</span></span><br><span class="line">        <span class="comment">/*RTMP_LogHex(packet.m_body, packet.m_nBodySize); */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/* respond with HMAC SHA256 of decompressed SWF, key is the 30byte player key, also the last 30 bytes of the server handshake are applied */</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (r-&gt;Link.SWFSize) &#123;</span><br><span class="line">            RTMP_SendCtrl(r, <span class="number">0x1B</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            RTMP_Log(RTMP_LOGERROR,</span><br><span class="line">                     <span class="string">"%s: Ignoring SWFVerification request, use --swfVfy!"</span>,</span><br><span class="line">                     __FUNCTION__);</span><br><span class="line">        &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">        RTMP_Log(RTMP_LOGERROR,</span><br><span class="line">                 <span class="string">"%s: Ignoring SWFVerification request, no CRYPTO support!"</span>,</span><br><span class="line">                 __FUNCTION__);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/05/用户控制消息事件/" rel="next" title="用户控制消息事件">
+                <i class="fa fa-chevron-left"></i> 用户控制消息事件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
       
     </footer>
   </div>
@@ -589,10 +455,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -600,6 +467,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -620,8 +491,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -681,6 +561,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RTMP-Connect"><span class="nav-number">1.</span> <span class="nav-text">RTMP_Connect</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RTMP-Connect0"><span class="nav-number">1.1.</span> <span class="nav-text">RTMP_Connect0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RTMP-Connect1"><span class="nav-number">1.2.</span> <span class="nav-text">RTMP_Connect1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HandShake"><span class="nav-number">1.2.1.</span> <span class="nav-text">HandShake</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#握手顺序"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">握手顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#握手数据块格式"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">握手数据块格式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#C0和S0数据块格式"><span class="nav-number">1.2.1.2.1.</span> <span class="nav-text">C0和S0数据块格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#C1和S1的格式"><span class="nav-number">1.2.1.2.2.</span> <span class="nav-text">C1和S1的格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#C2和S2的格式"><span class="nav-number">1.2.1.2.3.</span> <span class="nav-text">C2和S2的格式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SendConnectPacket"><span class="nav-number">1.2.2.</span> <span class="nav-text">SendConnectPacket</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -814,6 +710,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
