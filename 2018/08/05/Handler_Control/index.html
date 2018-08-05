@@ -79,13 +79,17 @@
 
 
 
-<meta property="og:type" content="website">
+<meta name="description" content="Handle_Control 本文记录 RTMP 中的用户控制消息事件， 客户端和服务器发送这一消息来通知对端用户控制事件  支持一下用户控制事件类型：  Stream Begin(=0) ： 服务器发送这个事件来通知客户端一个流已经就绪并可以用来通信。默认情况下，这一事件在成功接收到客户端的应用连接命令之后以ID0发送，这一事件数据为4字节，代表了已就绪的流ID. Stream EOF(=1)：">
+<meta property="og:type" content="article">
 <meta property="og:title" content="sycamoreleaves.github.io">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/08/05/Handler_Control/index.html">
 <meta property="og:site_name" content="sycamoreleaves.github.io">
+<meta property="og:description" content="Handle_Control 本文记录 RTMP 中的用户控制消息事件， 客户端和服务器发送这一消息来通知对端用户控制事件  支持一下用户控制事件类型：  Stream Begin(=0) ： 服务器发送这个事件来通知客户端一个流已经就绪并可以用来通信。默认情况下，这一事件在成功接收到客户端的应用连接命令之后以ID0发送，这一事件数据为4字节，代表了已就绪的流ID. Stream EOF(=1)：">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-05T07:47:46.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sycamoreleaves.github.io">
+<meta name="twitter:description" content="Handle_Control 本文记录 RTMP 中的用户控制消息事件， 客户端和服务器发送这一消息来通知对端用户控制事件  支持一下用户控制事件类型：  Stream Begin(=0) ： 服务器发送这个事件来通知客户端一个流已经就绪并可以用来通信。默认情况下，这一事件在成功接收到客户端的应用连接命令之后以ID0发送，这一事件数据为4字节，代表了已就绪的流ID. Stream EOF(=1)：">
 
 
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/05/Handler_Control/"/>
 
 
 
 
 
-  <title>sycamoreleaves.github.io</title>
+  <title> | sycamoreleaves.github.io</title>
   
 
 
@@ -140,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,9 +217,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -246,9 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/05/Handler_Control/" itemprop="url">未命名</a></h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -298,9 +299,7 @@
       
 
       
-        
-          
-            <h1 id="Handle-Control"><a href="#Handle-Control" class="headerlink" title="Handle_Control"></a>Handle_Control</h1><blockquote>
+        <h1 id="Handle-Control"><a href="#Handle-Control" class="headerlink" title="Handle_Control"></a>Handle_Control</h1><blockquote>
 <p>本文记录 RTMP 中的用户控制消息事件， 客户端和服务器发送这一消息来通知对端用户控制事件</p>
 </blockquote>
 <p>支持一下用户控制事件类型：</p>
@@ -314,8 +313,6 @@
 </ul>
 <p>下面的代码时librtmp关于用户控制消息的处理<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">void</span></span><br><span class="line">HandleCtrl(RTMP *r, <span class="keyword">const</span> RTMPPacket *packet)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">short</span> nType = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> tmp;</span><br><span class="line">    <span class="keyword">if</span> (packet-&gt;m_body &amp;&amp; packet-&gt;m_nBodySize &gt;= <span class="number">2</span>)</span><br><span class="line">        nType = AMF_DecodeInt16(packet-&gt;m_body);</span><br><span class="line">    RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, received ctrl. type: %d, len: %d"</span>, __FUNCTION__, nType,</span><br><span class="line">             packet-&gt;m_nBodySize);</span><br><span class="line">    <span class="comment">/*RTMP_LogHex(packet.m_body, packet.m_nBodySize); */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (packet-&gt;m_nBodySize &gt;= <span class="number">6</span>) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (nType) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream Begin %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream EOF %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">if</span> (r-&gt;m_pausing == <span class="number">1</span>)</span><br><span class="line">                r-&gt;m_pausing = <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream Dry %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream IsRecorded %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">6</span>:		<span class="comment">/* server ping. reply with pong. */</span></span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Ping %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            RTMP_SendCtrl(r, <span class="number">0x07</span>, tmp, <span class="number">0</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">/* FMS 3.5 servers send the following two controls to let the client</span></span><br><span class="line"><span class="comment">             * know when the server has sent a complete buffer. I.e., when the</span></span><br><span class="line"><span class="comment">             * server has sent an amount of data equal to m_nBufferMS in duration.</span></span><br><span class="line"><span class="comment">             * The server meters its output so that data arrives at the client</span></span><br><span class="line"><span class="comment">             * in realtime and no faster.</span></span><br><span class="line"><span class="comment">             *</span></span><br><span class="line"><span class="comment">             * The rtmpdump program tries to set m_nBufferMS as large as</span></span><br><span class="line"><span class="comment">             * possible, to force the server to send data as fast as possible.</span></span><br><span class="line"><span class="comment">             * In practice, the server appears to cap this at about 1 hour's</span></span><br><span class="line"><span class="comment">             * worth of data. After the server has sent a complete buffer, and</span></span><br><span class="line"><span class="comment">             * sends this BufferEmpty message, it will wait until the play</span></span><br><span class="line"><span class="comment">             * duration of that buffer has passed before sending a new buffer.</span></span><br><span class="line"><span class="comment">             * The BufferReady message will be sent when the new buffer starts.</span></span><br><span class="line"><span class="comment">             * (There is no BufferReady message for the very first buffer;</span></span><br><span class="line"><span class="comment">             * presumably the Stream Begin message is sufficient for that</span></span><br><span class="line"><span class="comment">             * purpose.)</span></span><br><span class="line"><span class="comment">             *</span></span><br><span class="line"><span class="comment">             * If the network speed is much faster than the data bitrate, then</span></span><br><span class="line"><span class="comment">             * there may be long delays between the end of one buffer and the</span></span><br><span class="line"><span class="comment">             * start of the next.</span></span><br><span class="line"><span class="comment">             *</span></span><br><span class="line"><span class="comment">             * Since usually the network allows data to be sent at</span></span><br><span class="line"><span class="comment">             * faster than realtime, and rtmpdump wants to download the data</span></span><br><span class="line"><span class="comment">             * as fast as possible, we use this RTMP_LF_BUFX hack: when we</span></span><br><span class="line"><span class="comment">             * get the BufferEmpty message, we send a Pause followed by an</span></span><br><span class="line"><span class="comment">             * Unpause. This causes the server to send the next buffer immediately</span></span><br><span class="line"><span class="comment">             * instead of waiting for the full duration to elapse. (That's</span></span><br><span class="line"><span class="comment">             * also the purpose of the ToggleStream function, which rtmpdump</span></span><br><span class="line"><span class="comment">             * calls if we get a read timeout.)</span></span><br><span class="line"><span class="comment">             *</span></span><br><span class="line"><span class="comment">             * Media player apps don't need this hack since they are just</span></span><br><span class="line"><span class="comment">             * going to play the data in realtime anyway. It also doesn't work</span></span><br><span class="line"><span class="comment">             * for live streams since they obviously can only be sent in</span></span><br><span class="line"><span class="comment">             * realtime. And it's all moot if the network speed is actually</span></span><br><span class="line"><span class="comment">             * slower than the media bitrate.</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">        <span class="keyword">case</span> <span class="number">31</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream BufferEmpty %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">if</span> (!(r-&gt;Link.lFlags &amp; RTMP_LF_BUFX))</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">if</span> (!r-&gt;m_pausing) &#123;</span><br><span class="line">                r-&gt;m_pauseStamp = r-&gt;m_mediaChannel &lt; r-&gt;m_channelsAllocatedIn ?</span><br><span class="line">                                  r-&gt;m_channelTimestamp[r-&gt;m_mediaChannel] : <span class="number">0</span>;</span><br><span class="line">                RTMP_SendPause(r, TRUE, r-&gt;m_pauseStamp);</span><br><span class="line">                r-&gt;m_pausing = <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (r-&gt;m_pausing == <span class="number">2</span>) &#123;</span><br><span class="line">                RTMP_SendPause(r, FALSE, r-&gt;m_pauseStamp);</span><br><span class="line">                r-&gt;m_pausing = <span class="number">3</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">32</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream BufferReady %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            tmp = AMF_DecodeInt32(packet-&gt;m_body + <span class="number">2</span>);</span><br><span class="line">            RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, Stream xx %d"</span>, __FUNCTION__, tmp);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (nType == <span class="number">0x1A</span>) &#123;</span><br><span class="line">        RTMP_Log(RTMP_LOGDEBUG, <span class="string">"%s, SWFVerification ping received: "</span>, __FUNCTION__);</span><br><span class="line">        <span class="keyword">if</span> (packet-&gt;m_nBodySize &gt; <span class="number">2</span> &amp;&amp; packet-&gt;m_body[<span class="number">2</span>] &gt; <span class="number">0x01</span>) &#123;</span><br><span class="line">            RTMP_Log(RTMP_LOGERROR,</span><br><span class="line">                     <span class="string">"%s: SWFVerification Type %d request not supported! Patches welcome..."</span>,</span><br><span class="line">                     __FUNCTION__, packet-&gt;m_body[<span class="number">2</span>]);</span><br><span class="line">        &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> CRYPTO</span></span><br><span class="line">        <span class="comment">/*RTMP_LogHex(packet.m_body, packet.m_nBodySize); */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/* respond with HMAC SHA256 of decompressed SWF, key is the 30byte player key, also the last 30 bytes of the server handshake are applied */</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (r-&gt;Link.SWFSize) &#123;</span><br><span class="line">            RTMP_SendCtrl(r, <span class="number">0x1B</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            RTMP_Log(RTMP_LOGERROR,</span><br><span class="line">                     <span class="string">"%s: Ignoring SWFVerification request, use --swfVfy!"</span>,</span><br><span class="line">                     __FUNCTION__);</span><br><span class="line">        &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">        RTMP_Log(RTMP_LOGERROR,</span><br><span class="line">                 <span class="string">"%s: Ignoring SWFVerification request, no CRYPTO support!"</span>,</span><br><span class="line">                 __FUNCTION__);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
-          
-        
       
     </div>
     
@@ -332,140 +329,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/30/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="le.zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sycamoreleaves.github.io">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/30/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-30T21:50:21+08:00">
-                2018-07-30
-              </time>
+              <a href="/2018/07/30/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -475,10 +360,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -486,6 +372,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -506,8 +396,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -549,6 +448,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Handle-Control"><span class="nav-number">1.</span> <span class="nav-text">Handle_Control</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -682,6 +597,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
