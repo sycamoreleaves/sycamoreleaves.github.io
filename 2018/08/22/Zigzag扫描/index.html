@@ -87,12 +87,12 @@
 <meta property="og:site_name" content="sycamoreleaves.github.io">
 <meta property="og:description" content="zigzag扫描 Zigzag Scan是一种扫描矩阵的方法， 类似的还有光栅扫描等。大多用到图像和视频编码中。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/08/22/Zigzag扫描/images/zigzag.png">
-<meta property="og:updated_time" content="2018-08-22T11:29:30.851Z">
+<meta property="og:image" content="http://yoursite.com/images/zigzag.png">
+<meta property="og:updated_time" content="2018-08-22T11:33:39.293Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zigzag扫描">
 <meta name="twitter:description" content="zigzag扫描 Zigzag Scan是一种扫描矩阵的方法， 类似的还有光栅扫描等。大多用到图像和视频编码中。">
-<meta name="twitter:image" content="http://yoursite.com/2018/08/22/Zigzag扫描/images/zigzag.png">
+<meta name="twitter:image" content="http://yoursite.com/images/zigzag.png">
 
 
 
@@ -358,7 +358,7 @@
 <p><code>Zigzag Scan</code>是一种扫描矩阵的方法， 类似的还有光栅扫描等。大多用到图像和视频编码中。</p>
 </blockquote>
 <a id="more"></a>
-<p><img src="images/zigzag.png" alt=""></p>
+<p><img src="/images/zigzag.png" alt=""></p>
 <p><code>H264</code>中<em>CAVLC</em>编码中，编码一个<em>4x4</em>子块的时候， 首先要对<em>4x4</em>子块进行扫描， 得到一个一维序列， 之后计算非零系数和拖尾系数等，<br>然后进行编码。</p>
 <p><code>CAVLC</code>中使用<code>Zigzag Scan</code>的原因在于：</p>
 <p><em>4x4</em>块在经过变换、量化之后， 非零系数主要在低频部分（左上方）， 而高频部分（右下角）大都是0。<br>使用zigzag扫描可以将非零系数较为集中的排列在序列的左边，<br>这样可以减少<em>Total Zeros</em>、<em>RunBefore</em>、<em>ZerosLeft</em>的编码， 提高编码效率。</p>
