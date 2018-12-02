@@ -352,7 +352,7 @@
       
         
           
-            <h1 id="syncthreads未定义表示符解决办法"><a href="#syncthreads未定义表示符解决办法" class="headerlink" title="__syncthreads未定义表示符解决办法"></a>__syncthreads未定义表示符解决办法</h1><blockquote>
+            <h1 id="syncthreads未定义标识解决办法"><a href="#syncthreads未定义标识解决办法" class="headerlink" title="__syncthreads未定义标识解决办法"></a>__syncthreads未定义标识解决办法</h1><blockquote>
 <p>今天遇到一个问题， 在核函数中用到了线程同步函数__syncthreads， 但是在VS上报未定义标识符，经过一阵摸索， 找到了解决办法， 下面分享一下解决方案</p>
 </blockquote>
 <p>1、__syncthread函数是头文件device_function.h中定义， 先确定头文件是否有添加进来<br>2、还有一种可能是程序写在了cpp文件中，这时候要修改为cu文件</p>
